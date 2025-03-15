@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import VideoCard from "./VideoCard";
 import { staggerContainer, fadeUp } from "@/lib/animations";
@@ -160,14 +161,16 @@ const FeaturedVideos = () => {
 
         {/* Load More Button */}
         <div className="flex justify-center">
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="group"
-          >
-            <span>Load More</span>
-            <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-y-1" />
-          </Button>
+          <Link to="/explore">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="group"
+            >
+              <span>Explore More</span>
+              <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-y-1" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

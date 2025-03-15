@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Play, TrendingUp, Clock, Search } from "lucide-react";
 
@@ -110,13 +111,15 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-wrap items-center gap-4"
           >
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-white group"
-            >
-              <Play className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-              Watch Now
-            </Button>
+            <Link to={`/video/${currentVideo.id}`}>
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-white group"
+              >
+                <Play className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+                Watch Now
+              </Button>
+            </Link>
             <Button 
               variant="outline" 
               size="lg"
@@ -166,9 +169,11 @@ const HeroSection = () => {
               placeholder="Search for videos, channels, or categories..."
               className="flex-1 bg-transparent text-white border-none outline-none placeholder:text-white/50"
             />
-            <Button className="bg-white text-primary hover:bg-white/90 ml-3">
-              Search
-            </Button>
+            <Link to="/explore">
+              <Button className="bg-white text-primary hover:bg-white/90 ml-3">
+                Search
+              </Button>
+            </Link>
           </div>
         </div>
       </motion.div>
