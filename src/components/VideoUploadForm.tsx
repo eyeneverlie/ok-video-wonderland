@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { uploadVideo } from "@/utils/uploadService";
 
 // Form validation schema
 const formSchema = z.object({
@@ -114,31 +114,7 @@ const VideoUploadForm = ({ isUploading, setIsUploading, onUploadSuccess }: Video
     }
   };
 
-  const simulateUpload = () => {
-    setIsUploading(true);
-    setUploadProgress(0);
-
-    // Simulate upload progress
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        const newProgress = prev + Math.random() * 10;
-        if (newProgress >= 100) {
-          clearInterval(interval);
-          // Simulate processing time
-          setTimeout(() => {
-            setIsUploading(false);
-            // Generate a random video ID (in a real app, this would come from the server)
-            const videoId = `vid-${Math.random().toString(36).substring(2, 12)}`;
-            onUploadSuccess(videoId);
-          }, 1500);
-          return 100;
-        }
-        return newProgress;
-      });
-    }, 500);
-  };
-
-  const onSubmit = (values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
     // Validate files exist
     if (!videoFile) {
       setError("Please select a video to upload");
@@ -148,13 +124,43 @@ const VideoUploadForm = ({ isUploading, setIsUploading, onUploadSuccess }: Video
     // Clear any previous errors
     setError(null);
     
-    // For demo purposes, we'll just simulate the upload
-    // In a real app, you would upload to a server or cloud storage
-    simulateUpload();
+    // Start upload process
+    setIsUploading(true);
+    setUploadProgress(0);
     
-    console.log("Form values:", values);
-    console.log("Video file:", videoFile);
-    console.log("Thumbnail file:", thumbnailFile);
+    try {
+      const result = await uploadVideo(
+        videoFile,
+        thumbnailFile,
+        {
+          title: values.title,
+          description: values.description,
+          tags: values.tags
+        },
+        {
+          onProgress: (progress) => {
+            setUploadProgress(progress);
+          }
+        }
+      );
+      
+      if (result.success) {
+        // Handle successful upload
+        setIsUploading(false);
+        onUploadSuccess(result.videoId);
+      } else {
+        // Handle upload failure
+        setIsUploading(false);
+        setError(result.message || "Upload failed. Please try again.");
+        toast.error("Upload failed. Please try again.");
+      }
+    } catch (error) {
+      // Handle unexpected errors
+      setIsUploading(false);
+      setError("An unexpected error occurred. Please try again.");
+      toast.error("Upload failed. Please try again.");
+      console.error("Upload error:", error);
+    }
   };
 
   return (
