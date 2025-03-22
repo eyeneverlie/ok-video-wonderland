@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Upload, Video, FolderPlus, Settings, Grid3X3, 
-  LayoutDashboard, PlusCircle, FileVideo 
+  LayoutDashboard, PlusCircle, FileVideo, Shield 
 } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import VideoGrid from "@/components/dashboard/VideoGrid";
@@ -53,7 +53,10 @@ const DashboardPage = () => {
           {/* Mobile navigation drawer */}
           <div className="md:hidden p-4 border-b">
             <div className="flex items-center justify-between">
-              <h1 className="text-xl font-bold">Dashboard</h1>
+              <h1 className="text-xl font-bold flex items-center gap-2">
+                <Shield className="h-5 w-5 text-primary" />
+                Admin Dashboard
+              </h1>
               <Drawer>
                 <DrawerTrigger asChild>
                   <Button variant="outline" size="icon">
@@ -75,7 +78,7 @@ const DashboardPage = () => {
                 <TabsList>
                   <TabsTrigger value="videos" className="flex items-center gap-2">
                     <Video className="h-4 w-4" />
-                    <span>My Videos</span>
+                    <span>Manage Videos</span>
                   </TabsTrigger>
                   <TabsTrigger value="categories" className="flex items-center gap-2">
                     <FolderPlus className="h-4 w-4" />
@@ -97,7 +100,7 @@ const DashboardPage = () => {
               <TabsContent value="videos" className="space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <h2 className="text-2xl font-bold">My Videos</h2>
+                    <h2 className="text-2xl font-bold">Video Management</h2>
                     <div className="w-[180px]">
                       <Select value={filterCategory} onValueChange={setFilterCategory}>
                         <SelectTrigger>

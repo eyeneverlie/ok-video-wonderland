@@ -1,7 +1,7 @@
 
 import { 
   Video, FolderPlus, Settings, Home, Users, 
-  Upload, Bell, LogOut, FileVideo 
+  Upload, LogOut, FileVideo, Shield 
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ const DashboardSidebar = ({ activeTab, onTabChange }: DashboardSidebarProps) => 
   const menuItems = [
     { 
       id: "videos", 
-      label: "My Videos", 
+      label: "Manage Videos", 
       icon: FileVideo,
       onClick: () => onTabChange("videos")
     },
@@ -52,8 +52,8 @@ const DashboardSidebar = ({ activeTab, onTabChange }: DashboardSidebarProps) => 
     <div className="flex flex-col h-full py-4">
       <div className="px-4 mb-6">
         <h2 className="text-lg font-bold flex items-center gap-2">
-          <Video className="h-5 w-5 text-primary" />
-          <span>Video Dashboard</span>
+          <Shield className="h-5 w-5 text-primary" />
+          <span>Admin Dashboard</span>
         </h2>
       </div>
       
